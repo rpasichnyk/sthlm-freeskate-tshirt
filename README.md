@@ -1,1 +1,1 @@
-http://rpasichnyk.github.io/sthlm-freeskate-tshirt
+https://rpasichnyk.github.io/sthlm-freeskate-tshirt
