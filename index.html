@@ -1,29 +1,36 @@
 <html>
 <head>
+  <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/start/jquery-ui.css">
+
 <style>
 #container img {
   position: absolute;
 }
 
 #tshirt {
-  background-blend-mode: multiply;  
+  background-blend-mode: multiply;
+  max-width: 100%;
+  max-height: 100%;
+}
+#logo {
+  width: 200px;
+  height: 200px;
+  left: 50%;
+  top: 200px;
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-</head>
-
-<div id="container" draggable="true">
-  <img id="tshirt" src="tshirt.png">
-  <svg id="logo" xmlns="http://www.w3.org/2000/svg" width="124" height="124" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M10 20h4V4h-4v16zm-6 0h4v-8H4v8zM16 9v11h4V9h-4z"/></svg>
-</div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 <script>
   function addimage() {
     var img = document.getElementById("logo");
-    $(img).draggable();
-    $(img).resizable();
-    $(img).css("fill", "black");
+    $(img).draggable().resizable({
+      aspectRatio: 1.0
+    });
+
+    var svg = document.getElementById("svg");
+    $(svg).css("fill", "black");
   }
 
   $(document).ready(function() {
@@ -34,4 +41,15 @@
   });
 
 </script>
+</head>
+
+<body>
+<div id="container" draggable="true">
+  <img id="tshirt" src="tshirt.png">
+  <div id="logo" >
+    <svg id="svg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M10 20h4V4h-4v16zm-6 0h4v-8H4v8zM16 9v11h4V9h-4z"/></svg>
+  </div>
+</div>
+
+</body>
 </html>
