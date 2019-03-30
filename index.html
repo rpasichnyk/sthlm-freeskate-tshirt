@@ -1,0 +1,37 @@
+<html>
+<head>
+<style>
+#container img {
+  position: absolute;
+}
+
+#tshirt {
+  background-blend-mode: multiply;  
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+
+<div id="container" draggable="true">
+  <img id="tshirt" src="tshirt.png">
+  <svg id="logo" xmlns="http://www.w3.org/2000/svg" width="124" height="124" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M10 20h4V4h-4v16zm-6 0h4v-8H4v8zM16 9v11h4V9h-4z"/></svg>
+</div>
+
+<script>
+  function addimage() {
+    var img = document.getElementById("logo");
+    $(img).draggable();
+    $(img).resizable();
+    $(img).css("fill", "black");
+  }
+
+  $(document).ready(function() {
+    addimage();
+
+    var tshirt = document.getElementById("tshirt");
+    $(tshirt).css("background-color", "orange");
+  });
+
+</script>
+</html>
