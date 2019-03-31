@@ -68,7 +68,7 @@ path {
     { name: 'Black', hex: '#000000' }
   ];
 
-  var logoColours = [
+  var logoColors = [
     { name: 'Yellow', hex: '#FFFF00' },
     { name: 'LawnGreen', hex: '#7CFC00' },
     { name: 'Aqua', hex: '#00FFFF' },
@@ -153,24 +153,23 @@ path {
     logoColor = urlParam('logo_color');
 
     if (!logoTop || !logoLeft) {
-      grabPosition();
-    } else {
-      applyPosition();
+      logoTop = 242;
+      logoLeft = 377;
     }
+    applyPosition();
 
     if (!logoSize) {
-      grabSize();
-    } else {
-      applySize();
+      logoSize = 298;
     }
+    applySize();
 
     if (!tshirtColor) {
-      tshirtColor = '#FF00FF';
+      tshirtColor = tshirtColors[8].hex;
     }
     applyTshirtColor();
 
     if (!logoColor) {
-      logoColor = '#000000';
+      logoColor = logoColors[0].hex;
     }
     applyLogoColor();
 
@@ -214,8 +213,8 @@ path {
     });
 
     var $palette = $('#logo-color-container');
-    for (var i = 0; i < logoColours.length; i++) {
-      $palette.append($('<li />').css('background-color', logoColours[i].hex));
+    for (var i = 0; i < logoColors.length; i++) {
+      $palette.append($('<li />').css('background-color', logoColors[i].hex));
     }
 
     $('#logo-color-container').on('click', 'li', function() {
