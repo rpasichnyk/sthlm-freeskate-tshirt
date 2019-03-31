@@ -7,8 +7,6 @@
 }
 #tshirt {
   background-blend-mode: multiply;
-  max-width: 100%;
-  max-height: 100%;
 }
 #logo {
   width: 200px;
@@ -105,17 +103,24 @@ path {
   var logoPosition = "";
   var logoSize = "";
 
-  function init() {
+  function grabPosition() {
+    logoPosition = "" + ($('#logo').offset().top - $('#tshirt-container').offset().top) + ":" + $('#logo').offset().left;
+  }
 
+  function grabSize() {
+    logoSize = "" + $('#logo').width() + ":" + $('#logo').height();
+  }
+
+  function init() {
     $('#logo').draggable({
       stop: function(e, ui) {
-        logoPosition = "" + ui.offset.top.toFixed(0) + ":" + ui.offset.left;
+        grabPosition();
         updateText();
       }
     }).resizable({
       aspectRatio: 1.0,
       stop: function(e, ui) {
-        logoSize = "" + ui.size.width + ":" + ui.size.height;
+        grabSize();
         updateText();
       }
     });
@@ -125,8 +130,8 @@ path {
 
     tshirtColour = $('#tshirt').css('background-color');
     logoColor = $('path').css('fill');
-    logoPosition = "" + $('#logo').offset().top + ":" + $('#logo').offset().left;
-    logoSize = "" + $('#logo').width() + ":" + $('#logo').height();
+    grabPosition();
+    grabSize();
     updateText();
   }
 
