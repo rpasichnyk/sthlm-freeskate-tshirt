@@ -50,7 +50,7 @@ path {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 <script>
 
-  var tshirtColours = [
+  var tshirtColors = [
     { name: 'Yellow', hex: '#FFFF00' },
     { name: 'LawnGreen', hex: '#7CFC00' },
     { name: 'Aqua', hex: '#00FFFF' },
@@ -95,20 +95,41 @@ path {
         r=r.length==1?'0'+r:r; g=g.length==1?'0'+g:g; b=b.length==1?'0'+b:b;
         var colHex='#'+r+g+b;
         return colHex;
+    } else {
+      return col;
     }
   }
 
-  var tshirtColour = "";
+  var tshirtColor = "";
   var logoColor = "";
-  var logoPosition = "";
-  var logoSize = "";
+  var logoTop = 0;
+  var logoLeft = 0;
+  var logoSize = 0;
 
   function grabPosition() {
-    logoPosition = "" + ($('#logo').offset().top - $('#tshirt-container').offset().top) + ":" + $('#logo').offset().left;
+    logoTop = ($('#logo').offset().top - $('#tshirt-container').offset().top);
+    logoLeft = $('#logo').offset().left;
+  }
+
+  function applyPosition() {
+    $('#logo').offset({top: $('#tshirt-container').offset().top + logoTop, left: logoLeft});
   }
 
   function grabSize() {
-    logoSize = "" + $('#logo').width() + ":" + $('#logo').height();
+    logoSize = $('#logo').width();
+  }
+
+  function applySize() {
+    $('#logo').width(logoSize);
+    $('#logo').height(logoSize);
+  }
+
+  function applyTshirtColor() {
+    $('#tshirt').css('background-color', rgbToHex(tshirtColor));
+  }
+
+  function applyLogoColor() {
+    $('path').css('fill', rgbToHex(logoColor));
   }
 
   function init() {
@@ -125,31 +146,70 @@ path {
       }
     });
 
-    $('#tshirt').css('background-color', 'orange');
-    $('path').css('fill', 'black');
+    logoTop = parseInt(urlParam('top'));
+    logoLeft = parseInt(urlParam('left'));
+    logoSize = parseInt(urlParam('size'));
+    tshirtColor = urlParam('tshirt_color');
+    logoColor = urlParam('logo_color');
 
-    tshirtColour = $('#tshirt').css('background-color');
-    logoColor = $('path').css('fill');
-    grabPosition();
-    grabSize();
+    if (!logoTop || !logoLeft) {
+      grabPosition();
+    } else {
+      applyPosition();
+    }
+
+    if (!logoSize) {
+      grabSize();
+    } else {
+      applySize();
+    }
+
+    if (!tshirtColor) {
+      tshirtColor = '#FF00FF';
+    }
+    applyTshirtColor();
+
+    if (!logoColor) {
+      logoColor = '#000000';
+    }
+    applyLogoColor();
+
     updateText();
   }
 
+  function urlParam(name, url) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, '\\$&');
+    const regex = new RegExp('[?&]' + name + '(=([^&]*)|&|#|$)');
+    const results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+
   function updateText() {
-    $('#tshirt-label').html('T-shirt color: ' + rgbToHex(tshirtColour) + ', logo color: ' + rgbToHex(logoColor) + ', position: ' + logoPosition + ', size: ' + logoSize);
+    $('#tshirt-label').html('T-shirt color: ' + rgbToHex(tshirtColor) + ', logo color: ' + rgbToHex(logoColor) + ', top:' + logoTop + ', left:' + logoLeft + ', size:' + logoSize);
+
+    if (history.pushState) {
+      var url = window.location.protocol + '//' + window.location.host +
+        window.location.pathname + '?tshirt_color=' + rgbToHex(tshirtColor) + '&logo_color=' + rgbToHex(logoColor) + '&top=' + logoTop + '&left=' + logoLeft + '&size=' + logoSize;
+      history.pushState({ path:url }, '', url);
+    }
   }
 
   $(document).ready(function() {
     init();
 
     var $palette = $('#tshirt-color-container');
-    for (var i = 0; i < tshirtColours.length; i++) {
-      $palette.append($('<li />').css('background-color', tshirtColours[i].hex));
+    for (var i = 0; i < tshirtColors.length; i++) {
+      $palette.append($('<li />').css('background-color', tshirtColors[i].hex));
     }
 
     $('#tshirt-color-container').on('click', 'li', function() {
-      $('#tshirt').css('background-color', $(this).css('background-color'));
-      tshirtColour = $(this).css('background-color');
+      tshirtColor = $(this).css('background-color');
+      applyTshirtColor();
       updateText();
     });
 
@@ -159,8 +219,8 @@ path {
     }
 
     $('#logo-color-container').on('click', 'li', function() {
-      $('path').css('fill', $(this).css('background-color'));
       logoColor = $(this).css('background-color');
+      applyLogoColor();
       updateText();
     });
   });
