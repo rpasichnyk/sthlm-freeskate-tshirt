@@ -1,0 +1,51 @@
+#tshirt-container img {
+  position: absolute;
+}
+
+#tshirt {
+  background-blend-mode: multiply;
+}
+
+#logo {
+  width: 200px;
+  height: 200px;
+  left: 200px;
+  top: 200px;
+}
+
+ul {
+  width: 100%;
+}
+
+li {
+  cursor: pointer;
+  display: block;
+  height: 10vmin;
+  float: left;
+  margin: 0;
+  padding: 0;
+  width: 10vmin;
+}
+
+.new-line {
+  clear: both;
+}
+
+.label {
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.ui-resizable-se {
+  width: 20%;
+  height: 20%;
+}
+
+.ui-icon-gripsmall-diagonal-se {
+  background: url('baseline-arrow_back_ios-24px.svg') right bottom no-repeat;
+  opacity: 0.6;
+}
+
+path {
+  fill: orange;
+}
