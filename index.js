@@ -1,19 +1,49 @@
 var tshirtColors = [
-  { name: 'Yellow', hex: '#FFFF00' },
-  { name: 'LawnGreen', hex: '#7CFC00' },
-  { name: 'Aqua', hex: '#00FFFF' },
-  { name: 'Fuchsia', hex: '#FF00FF' },
-  { name: 'Blue', hex: '#0000FF' },
-  { name: 'Red', hex: '#FF0000' },
-  { name: 'DarkBlue', hex: '#00008B' },
-  { name: 'DarkCyan', hex: '#008B8B' },
-  { name: 'DarkGreen', hex: '#006400' },
-  { name: 'DarkMagenta', hex: '#8B008B' },
-  { name: 'DarkRed', hex: '#8B0000' },
-  { name: 'DarkGoldenRod', hex: '#B8860B' },
-  { name: 'DarkGray', hex: '#A9A9A9' },
-  { name: 'LightGray', hex: '#D3D3D3' },
-  { name: 'Black', hex: '#000000' }
+  { name: 'Bright red', hex: '#da160a' },
+  { name: 'Burgundy', hex: '#6a2631' },
+  { name: 'Candy pink', hex: '#f3dfd8' },
+  { name: 'Chocolate', hex: '#43362e' },
+  { name: 'Citadel blue', hex: '#87a0a5' },
+  { name: 'Cream heather grey', hex: '#e4e3e1' },
+  { name: 'Dark heather blue', hex: '#46566f' },
+  { name: 'Dark heather denim', hex: '#223f4d' },
+  { name: 'Dark heather grey', hex: '#313234' },
+  { name: 'Dark heather indigo', hex: '#4c5b80' },
+  { name: 'Deep royal blue', hex: '#024d9e' },
+  { name: 'Fresh green', hex: '#01a245' },
+  { name: 'Golden yellow', hex: '#f7d100' },
+  { name: 'Heather ash', hex: '#efefef' },
+  { name: 'Heather grape red', hex: '#4c2b34' },
+  { name: 'Heather gray', hex: '#c9c9c9' },
+  { name: 'Heather grape red', hex: '#a4b6bc' },
+  { name: 'Heather ice blue', hex: '#4c2b34' },
+  { name: 'Heather scarab green', hex: '#123026' },
+  { name: 'Khaki', hex: '#54554d' },
+  { name: 'Light opaline', hex: '#d3d4cc' },
+  { name: 'Mid heater blue', hex: '#5f82a9' },
+  { name: 'Mid heater green', hex: '#74b1a2' },
+  { name: 'Mid heater grey', hex: '#9b9b9d' },
+  { name: 'Mid heater khaki', hex: '#797e6a' },
+  { name: 'Mid heater red', hex: '#db5d60' },
+  { name: 'Natural', hex: '#efe7dc' },
+  { name: 'Navy', hex: '#203344' },
+  { name: 'Ocean depth', hex: '#005b6d' },
+  { name: 'Plum', hex: '#4a4059' },
+  { name: 'Red', hex: '#c8202d' },
+  { name: 'Blue', hex: '#00639e' },
+  { name: 'Scarab green', hex: '#1e3c30' },
+  { name: 'Sky blue', hex: '#a7c7d6' },
+  { name: 'Spectra yellow', hex: '#fbb61d' },
+  { name: 'Stargazer', hex: '#245460' },
+  { name: 'White', hex: '#eeeef0' },
+  { name: 'Vintage white', hex: '#f1ece8' },
+  { name: 'Antracite', hex: '#4b5151' },
+  { name: 'Azur', hex: '#0181b2' },
+  { name: 'Black', hex: '#1f292a' },
+  { name: 'Black heater cranbarry', hex: '#835c5d' },
+  { name: 'Black heather denim', hex: '#292e32' },
+  { name: 'Bottle green', hex: '#295848' },
+  { name: 'Bright orange', hex: '#ff660e' }
 ];
 
 var logoColors = [
@@ -145,11 +175,21 @@ function urlParam(name, url) {
 function updateText() {
   $('#tshirt-label').html('T-shirt color: ' + rgbToHex(tshirtColor) + ', logo color: ' + rgbToHex(logoColor) + ', top:' + logoTop + ', left:' + logoLeft + ', size:' + logoSize);
 
-  if (history.pushState) {
-    var url = window.location.protocol + '//' + window.location.host +
-      window.location.pathname + '?tshirt_color=' + rgbToHex(tshirtColor) + '&logo_color=' + rgbToHex(logoColor) + '&top=' + logoTop + '&left=' + logoLeft + '&size=' + logoSize;
-    history.pushState({ path:url }, '', url);
+  var url = window.location.protocol + '//' + window.location.host +
+    window.location.pathname + '?tshirt_color=' + rgbToHex(tshirtColor) + '&logo_color=' + rgbToHex(logoColor) + '&top=' + logoTop + '&left=' + logoLeft + '&size=' + logoSize;
+  history.pushState({ path:url }, '', url);
+
+  var qrcode = document.getElementById('qrcode');
+  while (qrcode.firstChild) {
+    qrcode.removeChild(qrcode.firstChild);
   }
+
+  $('#qrcode').qrcode({
+    text: url,
+    render: "table",
+    width: 200,
+    height: 200
+  });
 }
 
 $(document).ready(function() {

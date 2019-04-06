@@ -1,9 +1,16 @@
-#tshirt-container img {
-  position: absolute;
+#tshirt-container {
+  position: relative;
 }
 
 #tshirt {
   background-blend-mode: multiply;
+  position: absolute;
+}
+
+#qrcode {
+  position: absolute;
+  top: 512px;
+  left: 64px;
 }
 
 #logo {
