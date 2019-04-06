@@ -84,6 +84,22 @@ function rgbToHex(col) {
   }
 }
 
+function humanReadableColor(hex) {
+  for (var i = 0; i < tshirtColors.length; i++) {
+    if (tshirtColors[i].hex.toLowerCase() == hex.toLowerCase()) {
+      return tshirtColors[i].name;
+    }
+  }
+
+  for (var i = 0; i < logoColors.length; i++) {
+    if (logoColors[i].hex.toLowerCase() == hex.toLowerCase()) {
+      return logoColors[i].name;
+    }
+  }
+
+  return '-';
+}
+
 var tshirtColor = "";
 var logoColor = "";
 var logoTop = 0;
@@ -173,7 +189,7 @@ function urlParam(name, url) {
 }
 
 function updateText() {
-  $('#tshirt-label').html('T-shirt color: ' + rgbToHex(tshirtColor) + ', logo color: ' + rgbToHex(logoColor) + ', top:' + logoTop + ', left:' + logoLeft + ', size:' + logoSize);
+  $('#tshirt-label').html('T-shirt color: ' + rgbToHex(tshirtColor) + '(' + humanReadableColor(rgbToHex(tshirtColor)) + ')' + ', logo color: ' + rgbToHex(logoColor) + '(' + humanReadableColor(rgbToHex(logoColor)) + ')' + ', top:' + logoTop + ', left:' + logoLeft + ', size:' + logoSize);
 
   var url = window.location.protocol + '//' + window.location.host +
     window.location.pathname + '?tshirt_color=' + rgbToHex(tshirtColor) + '&logo_color=' + rgbToHex(logoColor) + '&top=' + logoTop + '&left=' + logoLeft + '&size=' + logoSize;
