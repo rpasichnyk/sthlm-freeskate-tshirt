@@ -189,10 +189,15 @@ function urlParam(name, url) {
 }
 
 function updateText() {
-  $('#tshirt-label').html('T-shirt color: ' + rgbToHex(tshirtColor) + '(' + humanReadableColor(rgbToHex(tshirtColor)) + ')' + ', logo color: ' + rgbToHex(logoColor) + '(' + humanReadableColor(rgbToHex(logoColor)) + ')' + ', top:' + logoTop + ', left:' + logoLeft + ', size:' + logoSize);
+  const tshirtHex = rgbToHex(tshirtColor);
+  const logoHex = rgbToHex(logoColor);
+  $('#tshirt-label').html('<a href="http://gronatryck.se/butik/ekologiska-t-shirts/ekologisk-profilt-shirt-i-39-olika-farger-i-xs-xxxl">T-shirt color:</a> ' +
+    tshirtHex + '(' + humanReadableColor(tshirtHex) + ')' +
+    ', logo color: ' + logoHex + '(' + humanReadableColor(logoHex) + ')' +
+    ', top:' + logoTop + ', left:' + logoLeft + ', size:' + logoSize);
 
   var url = window.location.protocol + '//' + window.location.host +
-    window.location.pathname + '?tshirt_color=' + rgbToHex(tshirtColor) + '&logo_color=' + rgbToHex(logoColor) + '&top=' + logoTop + '&left=' + logoLeft + '&size=' + logoSize;
+    window.location.pathname + '?tshirt_color=' + tshirtHex + '&logo_color=' + logoHex + '&top=' + logoTop + '&left=' + logoLeft + '&size=' + logoSize;
   history.pushState({ path:url }, '', url);
 
   var qrcode = document.getElementById('qrcode');
