@@ -187,8 +187,8 @@ function updateText() {
   $('#qrcode').qrcode({
     text: url,
     render: "table",
-    width: 200,
-    height: 200
+    width: 256,
+    height: 256
   });
 }
 
