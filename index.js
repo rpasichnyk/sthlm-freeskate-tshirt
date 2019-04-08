@@ -105,6 +105,7 @@ var logoColor = "";
 var logoTop = 0;
 var logoLeft = 0;
 var logoSize = 0;
+var isBack = 0;
 
 function grabPosition() {
   logoTop = ($('#logo').offset().top - $('#tshirt-container').offset().top);
@@ -113,6 +114,11 @@ function grabPosition() {
 
 function applyPosition() {
   $('#logo').offset({top: $('#tshirt-container').offset().top + logoTop, left: logoLeft});
+}
+
+function applyIsBack() {
+  var src = isBack == 0 ? 'tshirt.png' : 'tshirt_back.png';
+  $('#tshirt').attr('src', src);
 }
 
 function grabSize() {
@@ -151,6 +157,12 @@ function init() {
   logoSize = parseInt(urlParam('size'));
   tshirtColor = urlParam('tshirt_color');
   logoColor = urlParam('logo_color');
+  isBack = urlParam('back');
+
+  if (!isBack) {
+    isBack = 0;
+  }
+  applyIsBack();
 
   if (!logoTop || !logoLeft) {
     logoTop = 242;
@@ -197,7 +209,7 @@ function updateText() {
     ', top:' + logoTop + ', left:' + logoLeft + ', size:' + logoSize);
 
   var url = window.location.protocol + '//' + window.location.host +
-    window.location.pathname + '?tshirt_color=' + tshirtHex + '&logo_color=' + logoHex + '&top=' + logoTop + '&left=' + logoLeft + '&size=' + logoSize;
+    window.location.pathname + '?tshirt_color=' + tshirtHex + '&logo_color=' + logoHex + '&top=' + logoTop + '&left=' + logoLeft + '&size=' + logoSize + '&back=' + isBack;
   history.pushState({ path:url }, '', url);
 
   var qrcode = document.getElementById('qrcode');
@@ -235,6 +247,12 @@ $(document).ready(function() {
   $('#logo-color-container').on('click', 'li', function() {
     logoColor = $(this).css('background-color');
     applyLogoColor();
+    updateText();
+  });
+
+  $('#tshirt-container').on('click', '#tshirt', function() {
+    isBack = isBack == 0 ? 1 : 0;
+    applyIsBack();
     updateText();
   });
 });
