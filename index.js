@@ -105,15 +105,27 @@ var logoColor = "";
 var logoTop = 0;
 var logoLeft = 0;
 var logoSize = 0;
+var logoTopB = 0;
+var logoLeftB = 0;
+var logoSizeB = 0;
 var isBack = 0;
 
 function grabPosition() {
-  logoTop = ($('#logo').offset().top - $('#tshirt-container').offset().top);
-  logoLeft = $('#logo').offset().left;
+  if (isBack == 0) {
+    logoTop = ($('#logo').offset().top - $('#tshirt-container').offset().top);
+    logoLeft = $('#logo').offset().left;
+  } else {
+    logoTopB = ($('#logo').offset().top - $('#tshirt-container').offset().top);
+    logoLeftB = $('#logo').offset().left;
+  }
 }
 
 function applyPosition() {
-  $('#logo').offset({top: $('#tshirt-container').offset().top + logoTop, left: logoLeft});
+  if (isBack == 0) {
+    $('#logo').offset({top: $('#tshirt-container').offset().top + logoTop, left: logoLeft});
+  } else {
+    $('#logo').offset({top: $('#tshirt-container').offset().top + logoTopB, left: logoLeftB});
+  }
 }
 
 function applyIsBack() {
@@ -122,12 +134,21 @@ function applyIsBack() {
 }
 
 function grabSize() {
-  logoSize = $('#logo').width();
+  if (isBack == 0) {
+    logoSize = $('#logo').width();
+  } else {
+    logoSizeB = $('#logo').width();
+  }
 }
 
 function applySize() {
-  $('#logo').width(logoSize);
-  $('#logo').height(logoSize);
+  if (isBack == 0) {
+    $('#logo').width(logoSize);
+    $('#logo').height(logoSize);
+  } else {
+    $('#logo').width(logoSizeB);
+    $('#logo').height(logoSizeB);
+  }
 }
 
 function applyTshirtColor() {
@@ -152,12 +173,15 @@ function init() {
     }
   });
 
-  logoTop = parseInt(urlParam('top'));
-  logoLeft = parseInt(urlParam('left'));
-  logoSize = parseInt(urlParam('size'));
-  tshirtColor = urlParam('tshirt_color');
-  logoColor = urlParam('logo_color');
-  isBack = urlParam('back');
+  logoTop = parseInt(urlParam('t'));
+  logoLeft = parseInt(urlParam('l'));
+  logoSize = parseInt(urlParam('s'));
+  logoTopB = parseInt(urlParam('t2'));
+  logoLeftB = parseInt(urlParam('l2'));
+  logoSizeB = parseInt(urlParam('s2'));
+  tshirtColor = urlParam('tc');
+  logoColor = urlParam('lc');
+  isBack = urlParam('b');
 
   if (!isBack) {
     isBack = 0;
@@ -168,10 +192,17 @@ function init() {
     logoTop = 242;
     logoLeft = 377;
   }
+  if (!logoTopB || !logoLeftB) {
+    logoTopB = 242;
+    logoLeftB = 377;
+  }
   applyPosition();
 
   if (!logoSize) {
     logoSize = 298;
+  }
+  if (!logoSizeB) {
+    logoSizeB = 298;
   }
   applySize();
 
@@ -206,10 +237,14 @@ function updateText() {
   $('#tshirt-label').html('<a href="http://gronatryck.se/butik/ekologiska-t-shirts/ekologisk-profilt-shirt-i-39-olika-farger-i-xs-xxxl">T-shirt color:</a> ' +
     tshirtHex + '(' + humanReadableColor(tshirtHex) + ')' +
     ', logo color: ' + logoHex + '(' + humanReadableColor(logoHex) + ')' +
-    ', top:' + logoTop + ', left:' + logoLeft + ', size:' + logoSize);
+    ', top:' + logoTop + ', left:' + logoLeft + ', size:' + logoSize +
+    ', top2:' + logoTopB + ', left2:' + logoLeftB + ', size2:' + logoSizeB);
 
   var url = window.location.protocol + '//' + window.location.host +
-    window.location.pathname + '?tshirt_color=' + tshirtHex + '&logo_color=' + logoHex + '&top=' + logoTop + '&left=' + logoLeft + '&size=' + logoSize + '&back=' + isBack;
+    window.location.pathname + '?tc=' + tshirtHex + '&lc=' + logoHex +
+    '&t=' + logoTop + '&l=' + logoLeft + '&s=' + logoSize +
+    '&t2=' + logoTopB + '&l2=' + logoLeftB + '&s2=' + logoSizeB +
+    '&b=' + isBack;
   history.pushState({ path:url }, '', url);
 
   var qrcode = document.getElementById('qrcode');
@@ -253,6 +288,8 @@ $(document).ready(function() {
   $('#tshirt-container').on('click', '#tshirt', function() {
     isBack = isBack == 0 ? 1 : 0;
     applyIsBack();
+    applySize();
+    applyPosition();
     updateText();
   });
 });
