@@ -260,6 +260,14 @@ function updateText() {
   });
 }
 
+function flip() {
+  isBack = isBack == 0 ? 1 : 0;
+  applyIsBack();
+  applySize();
+  applyPosition();
+  updateText();
+}
+
 $(document).ready(function() {
   init();
 
@@ -286,10 +294,10 @@ $(document).ready(function() {
   });
 
   $('#tshirt-container').on('click', '#tshirt', function() {
-    isBack = isBack == 0 ? 1 : 0;
-    applyIsBack();
-    applySize();
-    applyPosition();
-    updateText();
+    flip();
+  });
+
+  $('#tshirt-container').on('click', '#flipbutton', function() {
+    flip();
   });
 });
